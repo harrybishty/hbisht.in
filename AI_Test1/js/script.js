@@ -167,7 +167,9 @@ async function sendMessage() {
     }
 
     var data = await response.json();
-    appendMessage(data.reply, "bot");
+    const botReply = data.text || data.message || data.reply || "No response from server";
+
+    appendMessage(botReply, "bot");
   } catch (error) {
     hideTyping();
     appendError(
