@@ -165,11 +165,16 @@ async function sendMessage() {
     if (!response.ok) {
       throw new Error("Server error: " + response.status);
     }
+var data = await response.json();
 
-    var data = await response.json();
-    const botReply = data.text || data.message || data.reply || "No response from server";
+console.log("API RESPONSE:", data);
 
-    appendMessage(botReply, "bot");
+const botReply = data.text || data.message || data.reply || "No response from server";
+
+console.log("BOT REPLY:", botReply);
+
+appendMessage(botReply, "bot");
+    
   } catch (error) {
     hideTyping();
     appendError(
