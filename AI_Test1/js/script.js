@@ -199,6 +199,13 @@ function sendQuickMessage(msg) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  // ✅ Ensure user_id is created once when page loads
+if (!localStorage.getItem("chat_user_id")) {
+  const id = "user_" + Math.random().toString(36).substring(2, 10);
+  localStorage.setItem("chat_user_id", id);
+}
+
+console.log("USER ID INIT:", localStorage.getItem("chat_user_id"));
   var chatbox = document.getElementById("chatbox");
 
   var observer = new MutationObserver(function () {
