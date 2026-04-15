@@ -1,5 +1,11 @@
 let chatOpen = false;
 
+// ✅ Ensure user_id is created once per user
+if (!localStorage.getItem("chat_user_id")) {
+  const id = "user_" + Math.random().toString(36).substring(2, 10);
+  localStorage.setItem("chat_user_id", id);
+}
+
 function toggleChat() {
   const chatbox = document.getElementById("chatbox");
   const iconOpen = document.getElementById("chat-icon-open");
@@ -25,11 +31,6 @@ function toggleChat() {
     toggle.style.animation = "clinic-pulse 2.5s infinite";
     chatOpen = false;
   }
-}
-function generateUserId() {
-  const id = "user_" + Math.random().toString(36).substring(2, 10);
-  localStorage.setItem("chat_user_id", id);
-  return id;
 }
 
 function handleKey(event) {
@@ -163,7 +164,7 @@ async function sendMessage() {
         },
       body: JSON.stringify({
   message: msg,
-  user_id: localStorage.getItem("chat_user_id") || generateUserId()
+  user_id: localStorage.getItem("chat_user_id")
 }),
       }
     );
