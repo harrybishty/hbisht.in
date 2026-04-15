@@ -1,5 +1,12 @@
 let chatOpen = false;
 
+// ✅ Ensure user_id is created once when page loads
+if (!localStorage.getItem("chat_user_id")) {
+  const id = "user_" + Math.random().toString(36).substring(2, 10);
+  localStorage.setItem("chat_user_id", id);
+}
+console.log("USER ID INIT:", localStorage.getItem("chat_user_id"));
+
 function toggleChat() {
   const chatbox = document.getElementById("chatbox");
   const iconOpen = document.getElementById("chat-icon-open");
@@ -148,18 +155,21 @@ async function sendMessage() {
   showTyping();
 
   try {
+    const payload = {
+      message: msg,
+      user_id: localStorage.getItem("chat_user_id") || "fallback_user"
+    };
+
+    console.log("SENDING:", payload);
+
     var response = await fetch(
       "https://fanback-rosalie-touchingly.ngrok-free.dev/webhook/chat",
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json"
         },
-      body: JSON.stringify({
-  message: msg,
-  user_id: localStorage.getItem("chat_user_id") || "fallback_user"
-}),
+        body: JSON.stringify(payload)
       }
     );
 
@@ -168,21 +178,20 @@ async function sendMessage() {
     if (!response.ok) {
       throw new Error("Server error: " + response.status);
     }
-var data = await response.json();
 
-console.log("API RESPONSE:", data);
+    var data = await response.json();
 
-const botReply = data.text || data.message || data.reply || "No response from server";
+    console.log("API RESPONSE:", data);
 
-console.log("BOT REPLY:", botReply);
+    const botReply = data.text || data.message || data.reply || "No response from server";
 
-appendMessage(botReply, "bot");
-    
+    console.log("BOT REPLY:", botReply);
+
+    appendMessage(botReply, "bot");
+
   } catch (error) {
     hideTyping();
-    appendError(
-      "⚠️ Sorry, we couldn't connect right now. Please try again or call our clinic directly."
-    );
+    appendError("⚠️ Sorry, we couldn't connect right now. Please try again.");
     console.error("Chat error:", error);
   }
 }
@@ -193,14 +202,6 @@ function sendQuickMessage(msg) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  
-  // ✅ Ensure user_id is created once when page loads
-if (!localStorage.getItem("chat_user_id")) {
-  const id = "user_" + Math.random().toString(36).substring(2, 10);
-  localStorage.setItem("chat_user_id", id);
-}
-
-console.log("USER ID INIT:", localStorage.getItem("chat_user_id"));
   var chatbox = document.getElementById("chatbox");
 
   var observer = new MutationObserver(function () {
@@ -210,6 +211,7 @@ console.log("USER ID INIT:", localStorage.getItem("chat_user_id"));
       }, 400);
     }
   });
+
   observer.observe(chatbox, { attributes: true, attributeFilter: ["class"] });
 
   document.addEventListener("keydown", function (e) {
