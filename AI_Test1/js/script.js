@@ -26,6 +26,11 @@ function toggleChat() {
     chatOpen = false;
   }
 }
+function generateUserId() {
+  const id = "user_" + Math.random().toString(36).substring(2, 10);
+  localStorage.setItem("chat_user_id", id);
+  return id;
+}
 
 function handleKey(event) {
   if (event.key === "Enter") {
@@ -156,7 +161,10 @@ async function sendMessage() {
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "true",
         },
-        body: JSON.stringify({ message: msg }),
+      body: JSON.stringify({
+  message: msg,
+  user_id: localStorage.getItem("chat_user_id") || generateUserId()
+}),
       }
     );
 
