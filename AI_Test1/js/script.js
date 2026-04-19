@@ -2,7 +2,7 @@ let chatOpen = false;
 
 // ✅ Ensure user_id is created once when page loads
 if (!localStorage.getItem("chat_user_id")) {
-  const id = "user_" + Math.random().toString(36).substring(2, 10);
+  const id = "user_" + Date.now();
   localStorage.setItem("chat_user_id", id);
 }
 console.log("USER ID INIT:", localStorage.getItem("chat_user_id"));
@@ -157,7 +157,7 @@ async function sendMessage() {
   try {
     const payload = {
       message: msg,
-      user_id: localStorage.getItem("chat_user_id") || "fallback_user"
+      user_id: localStorage.getItem("chat_user_id")
     };
 
     console.log("SENDING:", payload);
@@ -183,7 +183,8 @@ async function sendMessage() {
 
     console.log("API RESPONSE:", data);
 
-    const botReply = data.text || data.message || data.reply || "No response from server";
+    const botReply =
+      data.text || data.message || data.reply || "No response from server";
 
     console.log("BOT REPLY:", botReply);
 
