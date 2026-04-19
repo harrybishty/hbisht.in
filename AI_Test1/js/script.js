@@ -96,7 +96,7 @@ function appendMessage(text, sender) {
   if (!isUser) {
     var senderLabel = document.createElement("span");
     senderLabel.className = "message-sender";
-    senderLabel.textContent = "Seven-Eight Clinic";
+    senderLabel.textContent = "Test Clinic";
     meta.appendChild(senderLabel);
 
     var dot = document.createElement("span");
