@@ -636,3 +636,63 @@
     padding: 0 14px 10px;
   }
 }
+/* ================= WEBSITE UI ================= */
+
+.hero {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #0e9aa7, #3dc1d3);
+  color: white;
+}
+
+.hero h1 {
+  font-size: 28px;
+}
+
+.hero button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  color: #0e9aa7;
+  font-weight: 600;
+}
+
+.services {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.service-grid div {
+  padding: 15px;
+  background: #f4f8fb;
+  border-radius: 10px;
+}
+
+.cta {
+  padding: 40px 20px;
+  text-align: center;
+  background: #e8f4f8;
+}
+
+.cta button {
+  padding: 12px 20px;
+  background: #0e9aa7;
+  color: white;
+  border-radius: 8px;
+  border: none;
+}
+
+/* MOBILE */
+@media (min-width: 768px) {
+  .service-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
