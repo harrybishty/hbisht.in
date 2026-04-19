@@ -96,7 +96,7 @@ function appendMessage(text, sender) {
   if (!isUser) {
     var senderLabel = document.createElement("span");
     senderLabel.className = "message-sender";
-    senderLabel.textContent = "Test Clinic";
+    senderLabel.textContent = "Seven-Eight Clinic";
     meta.appendChild(senderLabel);
 
     var dot = document.createElement("span");
@@ -155,17 +155,10 @@ async function sendMessage() {
   showTyping();
 
   try {
-    let userId = localStorage.getItem("chat_user_id");
-
-if (!userId) {
-  userId = "user_" + Math.random().toString(36).substring(2, 10);
-  localStorage.setItem("chat_user_id", userId);
-}
-
-const payload = {
-  message: msg,
-  user_id: userId
-};
+    const payload = {
+      message: msg,
+      user_id: localStorage.getItem("chat_user_id") || "fallback_user"
+    };
 
     console.log("SENDING:", payload);
 
