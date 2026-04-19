@@ -157,7 +157,15 @@ async function sendMessage() {
   try {
     const payload = {
       message: msg,
-      user_id: localStorage.getItem("chat_user_id") || "fallback_user"
+     let userId = localStorage.getItem("chat_user_id");
+
+if (!userId) {
+  userId = "user_" + Math.random().toString(36).substring(2, 10);
+  localStorage.setItem("chat_user_id", userId);
+}
+
+// use this
+user_id: userId
     };
 
     console.log("SENDING:", payload);
