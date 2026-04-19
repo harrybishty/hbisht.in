@@ -1,11 +1,11 @@
 let chatOpen = false;
 
-// ✅ Ensure user_id is created once when page loads
-if (!localStorage.getItem("chat_user_id")) {
+// ✅ Create session-based user_id (new per tab/session)
+if (!sessionStorage.getItem("chat_user_id")) {
   const id = "user_" + Date.now();
-  localStorage.setItem("chat_user_id", id);
+  sessionStorage.setItem("chat_user_id", id);
 }
-console.log("USER ID INIT:", localStorage.getItem("chat_user_id"));
+console.log("USER ID INIT:", sessionStorage.getItem("chat_user_id"));
 
 function toggleChat() {
   const chatbox = document.getElementById("chatbox");
@@ -157,7 +157,7 @@ async function sendMessage() {
   try {
     const payload = {
       message: msg,
-      user_id: localStorage.getItem("chat_user_id")
+      user_id: sessionStorage.getItem("chat_user_id")
     };
 
     console.log("SENDING:", payload);
@@ -185,8 +185,6 @@ async function sendMessage() {
 
     const botReply =
       data.text || data.message || data.reply || "No response from server";
-
-    console.log("BOT REPLY:", botReply);
 
     appendMessage(botReply, "bot");
 
